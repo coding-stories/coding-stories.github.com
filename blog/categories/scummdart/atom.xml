@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: SCUMMDart | Coding Stories]]></title>
+  <link href="http://coding-stories.github.com/blog/categories/scummdart/atom.xml" rel="self"/>
+  <link href="http://coding-stories.github.com/"/>
+  <updated>2015-08-24T12:27:25+02:00</updated>
+  <id>http://coding-stories.github.com/</id>
+  <author>
+    <name><![CDATA[Jean-Christophe Sirot]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Secret of Monkey Island dans le navigateur]]></title>
+    <link href="http://coding-stories.github.com/blog/2013/03/19/the-secret-of-monkey-island-dans-le-navigateur/"/>
+    <updated>2013-03-19T07:15:00+01:00</updated>
+    <id>http://coding-stories.github.com/blog/2013/03/19/the-secret-of-monkey-island-dans-le-navigateur</id>
+    <content type="html"><![CDATA[<p>Il y a environ un an, pour apprendre <a href="http://www.dartlang.org/">Dart</a>, je me suis lancé dans un projet un peu fou : réécrire un moteur <a href="http://en.wikipedia.org/wiki/SCUMM">SCUM</a> en Dart en portant le code source du projet open-source <a href="https://github.com/scummvm/scummvm">ScummVM</a>. L'objectif est de pouvoir jouer à Monkey Island (version française CD, SCUMM version 5) directement dans le navigateur.</p>
+
+<p>J'ai fait une longue pause en attendant que le langage se stabilise et j'ai repris le code récemment. Voilà une courte vidéo (désolé pour la faible qualité, c'est mon premier post sur youtube) qui montre ce qui fonctionne pour le moment (pour faire court, le générique du jeu).</p>
+
+<p><div class="embed-video-container"><iframe src="http://www.youtube.com/embed/UkZ6v8LHbaU "></iframe></div></p>
+
+<p>Sur la vidéo on voit qu'il reste quelques problèmes :</p>
+
+<ul>
+<li>un problème de palette de couleur pour les crédits : ils sont écrits en bleu, ils devraient être magenta ;</li>
+<li>c'est (très) lent. À mon avis, ce problème est lié à Dartium ou au debugger du Dart Editor. Après compilation avec dart2js ça semble beaucoup plus rapide mais le Javascript produit contient des erreurs.</li>
+</ul>
+
+
+<p>Le code n'est pas encore publié mais sera rapidement <a href="https://github.com/jcsirot/SCUMM-Dart">disponible sur GitHub</a> où pour le moment est hébergé l'ancienne version.</p>
+]]></content>
+  </entry>
+  
+</feed>

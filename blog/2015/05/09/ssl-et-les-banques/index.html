@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SSL et les banques - Coding Stories</title>
+  <meta name="author" content="Jean-Christophe Sirot">
+
+  
+  <meta name="description" content="Il y a quelques jours l&#8217;expert en sécurité Troy Hunt publiait sur son blog un état des lieux de l&#8217;utilisation de SSL par les banques &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://coding-stories.github.com/blog/2015/05/09/ssl-et-les-banques/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Coding Stories" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-24699653-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">cs</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">Coding Stories</a></h1>
+  
+    <h2>Singe savant en ingénierie logicielle</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+
+<link href="/stylesheets/ssl-security.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:coding-stories.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/digest-js">digest.js</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/a-propos/">About - À Propos</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">SSL Et Les Banques</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-09T11:46:00+02:00" pubdate data-updated="true"> 9 mai 2015</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Il y a quelques jours l&#8217;expert en sécurité Troy Hunt <a href="http://www.troyhunt.com/2015/05/do-you-really-want-bank-grade-security.html">publiait sur son blog</a> un état des lieux de l&#8217;utilisation de SSL par les banques australiennes.</p>
+
+<p>Et qu&#8217;en est-il des banques françaises ? En utilisant le service <a href="https://www.ssllabs.com/">SSL Labs</a> de Qualys, voici les résultats obtenus.</p>
+
+<!-- more -->
+
+
+
+
+<table style="border:none;">
+    <tr style="font-size: small; border:none;">
+        <th class="rotate"/>
+        <th class="rotate"><div><span>Note</span></div></th>
+        <th class="rotate"><div><span>SSL v3</span></div></th>
+        <th class="rotate"><div><span>Certificats SHA-1</span></div></th>
+        <th class="rotate"><div><span>TLS 1.2</span></div></th>
+        <th class="rotate"><div><span>RC4</span></div></th>
+        <th class="rotate"><div><span>Perfect Forward Secrecy</span></div></th>
+        <th class="rotate"><div><span>Vulnérabilité POODLE</span></div></th>
+        <th class="rotate"><div><span>Vulnérabilité Heartbleed</span></div></th>
+        <th class="rotate"><div><span>Certificat EV</span></div></th>
+        <th class="rotate"><div><span>Certificate Transparency</span></div></th>
+    </tr>
+    <tr>
+        <td class="name A"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.ibps.rivesparis.banquepopulaire.fr&hideResults=on">www.ibps.rivesparis.banquepopulaire.fr</a></td>
+        <td class="grade A">A</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="pass"></td>
+        <td data-feature="PFS" class="pass"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name A"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=secure.ingdirect.fr&hideResults=on">secure.ingdirect.fr</a></td>
+        <td class="grade A">A-</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="pass"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name A"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=boursorama.com&s=83.231.216.140&hideResults=on">www.boursorama.com</a></td>
+        <td class="grade A">A-</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="pass">*</td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="pass"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.axa.fr&s=174.35.7.31&hideResults=on">www.axa.fr</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="pass">**</td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.hellobank.fr&hideResults=on">www.hellobank.com</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="pass"></td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.ca-paris.fr&hideResults=on">www.ca-paris.fr</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="pass">**</td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info yes"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.cic.fr&s=145.226.109.155&hideResults=on">www.cic.fr</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="pass"></td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info yes"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.secure.bnpparibas.net&s=159.50.16.33&hideResults=on">www.secure.bnpparibas.net</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.caisse-epargne.fr&s=91.135.188.224&hideResults=on">www.caisse-epargne.fr</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.monabanq.com&s=145.226.99.116&hideResults=on">www.monabanq.com</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.macif.fr&hideResults=on">www.macif.fr</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="fail"></td>
+        <td data-feature="SHA-1" class="pass"></td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info yes"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.hsbc.fr&s=91.214.6.232">www.hsbc.fr</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="fail"></td>
+        <td data-feature="SHA-1" class="pass">**</td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info yes"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=particuliers.secure.lcl.fr&hideResults=on">particuliers.secure.lcl.fr</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name B"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=creditmutuel.fr&s=145.226.45.139&hideResults=on">www.creditmutuel.fr</a></td>
+        <td class="grade B">B</td>
+        <td data-feature="SSL 3" class="pass"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name C"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.fortuneo.fr&s=194.51.217.72&hideResults=on">www.fortuneo.fr</a></td>
+        <td class="grade C">C</td>
+        <td data-feature="SSL 3" class="fail"></td>
+        <td data-feature="SHA-1" class="pass">**</td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="fail"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name C"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.societegenerale.fr&hideResults=on">www.societegenerale.fr</a></td>
+        <td class="grade C">C</td>
+        <td data-feature="SSL 3" class="fail"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="fail"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name C"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.allianzbanque.fr&hideResults=on">www.allianzbanque.fr</a></td>
+        <td class="grade C">C</td>
+        <td data-feature="SSL 3" class="fail"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="fail"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name C"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.credit-du-nord.fr&hideResults=on">www.credit-du-nord.fr</a></td>
+        <td class="grade C">C</td>
+        <td data-feature="SSL 3" class="fail"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="fail"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name F"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=espaceclient.groupama.fr&hideResults=on">espaceclient.groupama.fr</a></td>
+        <td class="grade F">F</td>
+        <td data-feature="SSL 3" class="fail"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="fail"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="pass"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info no"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+    <tr>
+        <td class="name F"><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.labanquepostale.fr&hideResults=on">www.labanquepostale.fr</a></td>
+        <td class="grade F">F</td>
+        <td data-feature="SSL 3" class="fail"></td>
+        <td data-feature="SHA-1" class="fail"></td>
+        <td data-feature="TLS 1.2" class="pass"></td>
+        <td data-feature="RC4" class="fail"></td>
+        <td data-feature="PFS" class="fail"></td>
+        <td data-feature="POODLE" class="fail"></td>
+        <td data-feature="Heartbleed"class="pass"></td>
+        <td data-feature="EV" class="info yes"></td>
+        <td data-feature="Transparency" class="info no"></td>
+    </tr>
+</table>
+
+
+
+
+<div style="font-size: x-small;">
+* un certificat intermédiaire utilise SHA-1
+<br/>
+** Le certificat de l&#8217;autorité racine utilise SHA-1
+</div>
+
+
+<p>Quelques remarques complémentaires :</p>
+
+<p>D&#8217;abord, en faisant ce test, j&#8217;ai été surpris de découvrir que nombreuses banques ne servaient pas leur page d&#8217;accueil directement en HTTPS.</p>
+
+<p>Ensuite bravo aux équipes IT de la Banque populaire, de ING Direct et de Boursorama pour leur note A.</p>
+
+<p>Enfin, concernant les notes C et F, elles sont principalement dues à des serveurs vulnérables à l&#8217;attaque <a href="https://fr.wikipedia.org/wiki/POODLE">POODLE</a> (sauf Groupama, vulnérable à <a href="https://community.qualys.com/blogs/securitylabs/2009/11/05/ssl-and-tls-authentication-gap-vulnerability-discovered?_ga=1.245541639.2029124093.1429356581">une attaque sur la renégociation TLS</a>). Il n&#8217;y a sans doute pas de vrai risque d&#8217;attaque car les banques disposent d&#8217;autres mécanismes de protection. Toutefois cela ne donne pas une bonne image et n&#8217;incite pas à la confiance - et moi-même étant client de la Banque Postale, je m&#8217;interroge.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jean-Christophe Sirot</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-09T11:46:00+02:00" pubdate data-updated="true"> 9 mai 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ssl/'>SSL</a>, <a class='category' href='/blog/categories/tls/'>TLS</a>, <a class='category' href='/blog/categories/security/'>security</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://coding-stories.github.com/blog/2015/05/09/ssl-et-les-banques/" data-via="jcsirot" data-counturl="http://coding-stories.github.com/blog/2015/05/09/ssl-et-les-banques/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+  <script type="in/share" data-counter="right" data-showzero="true"></script>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2013/03/19/the-secret-of-monkey-island-dans-le-navigateur/" title="Previous Post: The Secret of Monkey Island dans le navigateur">&laquo; The Secret of Monkey Island dans le navigateur</a>
+      
+      
+        <a class="basic-alignment right articlenav" href="/blog/2015/08/23/continuous-delivery-with-jenkins-workflow-and-docker/" title="Next Post: Continuous Delivery with Jenkins workflow and Docker">Continuous Delivery with Jenkins workflow and Docker &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/23/continuous-delivery-with-jenkins-workflow-and-docker/">Continuous Delivery with Jenkins workflow and Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/09/ssl-et-les-banques/">SSL et les banques</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/19/the-secret-of-monkey-island-dans-le-navigateur/">The Secret of Monkey Island dans le navigateur</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/20/code-story-2013/">Code Story 2013 : la phase de sélection</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/21/un-mois-avec-intellij-debut-de-lexperience/">Un mois avec IntelliJ - début de l'expérience</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jcsirot", 5, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/jcsirot" class="twitter-follow-button" data-show-count="false">Follow @jcsirot</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/jcsirot?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+  <h1>Category Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/android' style='font-size: 121.81818181818181%'>android</a> <a href='/blog/categories/bytecode' style='font-size: 105.45454545454545%'>bytecode</a> <a href='/blog/categories/chess' style='font-size: 110.9090909090909%'>chess</a> <a href='/blog/categories/cobertura' style='font-size: 110.9090909090909%'>cobertura</a> <a href='/blog/categories/code' style='font-size: 116.36363636363636%'>code</a> <a href='/blog/categories/code-coverage' style='font-size: 105.45454545454545%'>code coverage</a> <a href='/blog/categories/compiler' style='font-size: 105.45454545454545%'>compiler</a> <a href='/blog/categories/conference' style='font-size: 121.81818181818181%'>conference</a> <a href='/blog/categories/confluence' style='font-size: 105.45454545454545%'>confluence</a> <a href='/blog/categories/continuous-delivery' style='font-size: 105.45454545454545%'>Continuous Delivery</a> <a href='/blog/categories/cryptography' style='font-size: 105.45454545454545%'>cryptography</a> <a href='/blog/categories/dart' style='font-size: 110.9090909090909%'>dart</a> <a href='/blog/categories/dartlang' style='font-size: 105.45454545454545%'>dartlang</a> <a href='/blog/categories/devops' style='font-size: 105.45454545454545%'>devops</a> <a href='/blog/categories/devoxx' style='font-size: 110.9090909090909%'>devoxx</a> <a href='/blog/categories/docker' style='font-size: 105.45454545454545%'>Docker</a> <a href='/blog/categories/dvcs' style='font-size: 110.9090909090909%'>DVCS</a> <a href='/blog/categories/ecc' style='font-size: 105.45454545454545%'>ECC</a> <a href='/blog/categories/elliptic-curve' style='font-size: 105.45454545454545%'>elliptic curve</a> <a href='/blog/categories/en' style='font-size: 105.45454545454545%'>en</a> <a href='/blog/categories/framework' style='font-size: 110.9090909090909%'>framework</a> <a href='/blog/categories/git' style='font-size: 110.9090909090909%'>git</a> <a href='/blog/categories/google' style='font-size: 127.27272727272728%'>google</a> <a href='/blog/categories/hero' style='font-size: 105.45454545454545%'>hero</a> <a href='/blog/categories/htc' style='font-size: 105.45454545454545%'>htc</a> <a href='/blog/categories/html5' style='font-size: 105.45454545454545%'>html5</a> <a href='/blog/categories/http' style='font-size: 105.45454545454545%'>HTTP</a> <a href='/blog/categories/https' style='font-size: 110.9090909090909%'>HTTPS</a> <a href='/blog/categories/ide' style='font-size: 105.45454545454545%'>IDE</a> <a href='/blog/categories/intellij' style='font-size: 105.45454545454545%'>IntelliJ</a> <a href='/blog/categories/ios' style='font-size: 105.45454545454545%'>iOS</a> <a href='/blog/categories/jacoco' style='font-size: 105.45454545454545%'>JaCoCo</a> <a href='/blog/categories/java' style='font-size: 160.0%'>java</a> <a href='/blog/categories/java7' style='font-size: 105.45454545454545%'>java7</a> <a href='/blog/categories/javascript' style='font-size: 110.9090909090909%'>javascript</a> <a href='/blog/categories/jenkins' style='font-size: 105.45454545454545%'>Jenkins</a> <a href='/blog/categories/jenkins-workflow' style='font-size: 105.45454545454545%'>Jenkins workflow</a> <a href='/blog/categories/jira' style='font-size: 105.45454545454545%'>jira</a> <a href='/blog/categories/jschessboard' style='font-size: 105.45454545454545%'>jsChessboard</a> <a href='/blog/categories/jug' style='font-size: 110.9090909090909%'>JUG</a> <a href='/blog/categories/junit' style='font-size: 105.45454545454545%'>junit</a> <a href='/blog/categories/keynote' style='font-size: 105.45454545454545%'>keynote</a> <a href='/blog/categories/ldap' style='font-size: 105.45454545454545%'>ldap</a> <a href='/blog/categories/log' style='font-size: 105.45454545454545%'>log</a> <a href='/blog/categories/maven' style='font-size: 121.81818181818181%'>maven</a> <a href='/blog/categories/maven-cobertura-plugin' style='font-size: 105.45454545454545%'>maven-cobertura-plugin</a> <a href='/blog/categories/maven-enforcer-plugin' style='font-size: 105.45454545454545%'>maven-enforcer-plugin</a> <a href='/blog/categories/maven-failsafe-plugin' style='font-size: 105.45454545454545%'>maven-failsafe-plugin</a> <a href='/blog/categories/maven-jacoco-plugin' style='font-size: 105.45454545454545%'>maven-jacoco-plugin</a> <a href='/blog/categories/maven-jarsigner-plugin' style='font-size: 105.45454545454545%'>maven-jarsigner-plugin</a> <a href='/blog/categories/maven-release-plugin' style='font-size: 110.9090909090909%'>maven-release-plugin</a> <a href='/blog/categories/mock' style='font-size: 105.45454545454545%'>mock</a> <a href='/blog/categories/netbeans' style='font-size: 105.45454545454545%'>NetBeans</a> <a href='/blog/categories/objective-c' style='font-size: 105.45454545454545%'>objective-c</a> <a href='/blog/categories/parleys' style='font-size: 116.36363636363636%'>parleys</a> <a href='/blog/categories/pgn' style='font-size: 105.45454545454545%'>PGN</a> <a href='/blog/categories/play' style='font-size: 110.9090909090909%'>play</a> <a href='/blog/categories/proxy' style='font-size: 105.45454545454545%'>proxy</a> <a href='/blog/categories/qualite' style='font-size: 105.45454545454545%'>qualite</a> <a href='/blog/categories/quality' style='font-size: 110.9090909090909%'>quality</a> <a href='/blog/categories/rsa' style='font-size: 105.45454545454545%'>RSA</a> <a href='/blog/categories/scala' style='font-size: 121.81818181818181%'>scala</a> <a href='/blog/categories/scumm' style='font-size: 105.45454545454545%'>SCUMM</a> <a href='/blog/categories/scummdart' style='font-size: 105.45454545454545%'>SCUMMDart</a> <a href='/blog/categories/scummvm' style='font-size: 105.45454545454545%'>ScummVM</a> <a href='/blog/categories/security' style='font-size: 132.72727272727272%'>security</a> <a href='/blog/categories/software-craftsmanship' style='font-size: 105.45454545454545%'>software craftsmanship</a> <a href='/blog/categories/sonar' style='font-size: 110.9090909090909%'>sonar</a> <a href='/blog/categories/spring' style='font-size: 105.45454545454545%'>spring</a> <a href='/blog/categories/ssl' style='font-size: 121.81818181818181%'>SSL</a> <a href='/blog/categories/test' style='font-size: 127.27272727272728%'>test</a> <a href='/blog/categories/tls' style='font-size: 121.81818181818181%'>TLS</a> <a href='/blog/categories/uncle-bob' style='font-size: 105.45454545454545%'>Uncle Bob</a> <a href='/blog/categories/video' style='font-size: 105.45454545454545%'>video</a> <a href='/blog/categories/web' style='font-size: 116.36363636363636%'>web</a> <a href='/blog/categories/wiki' style='font-size: 105.45454545454545%'>wiki</a> </span>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Jean-Christophe Sirot -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  Theme <a href="https://github.com/amelandri/darkstripes">DarkStripes</a> by Alessandro Melandri
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'codingst';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://coding-stories.github.com/blog/2015/05/09/ssl-et-les-banques/';
+        var disqus_url = 'http://coding-stories.github.com/blog/2015/05/09/ssl-et-les-banques/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'http://platform.linkedin.com/in.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
